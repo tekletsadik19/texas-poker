@@ -74,26 +74,98 @@ class _ComparePageState extends State<ComparePage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _playerSection('Player 1', _p1Hole, _p1Comm, const Color(0xFF3498DB)),
-          const SizedBox(height: 16),
-          const Divider(color: Color(0xFF2C3E50), thickness: 1),
-          const SizedBox(height: 16),
-          _playerSection('Player 2', _p2Hole, _p2Comm, const Color(0xFFE67E22)),
+          _tableHeader(
+            'HEAD-TO-HEAD',
+            'Compare two players with a shared board.',
+          ),
           const SizedBox(height: 24),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _playerInput(
+                  'PLAYER A',
+                  _p1Hole,
+                  const Color(0xFF3498DB),
+                ),
+              ),
+              const SizedBox(width: 24),
+              Expanded(
+                child: _playerInput(
+                  'PLAYER B',
+                  _p2Hole,
+                  const Color(0xFFE67E22),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 32),
+          _tableHeader(
+            'THE SHARED BOARD',
+            'The community cards used by both players.',
+          ),
+          const SizedBox(height: 16),
+
+          _sectionLabel('FLOP'),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: CardInput(controller: _p1Comm[0], label: 'CARD 1'),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: CardInput(controller: _p1Comm[1], label: 'CARD 2'),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: CardInput(controller: _p1Comm[2], label: 'CARD 3'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionLabel('TURN'),
+                    const SizedBox(height: 8),
+                    CardInput(controller: _p1Comm[3], label: 'CARD 4'),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionLabel('RIVER'),
+                    const SizedBox(height: 8),
+                    CardInput(controller: _p1Comm[4], label: 'CARD 5'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 40),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _loading ? null : _compare,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF8E44AD),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                elevation: 4,
+                shadowColor: const Color(0xFF8E44AD).withOpacity(0.4),
               ),
               child: _loading
                   ? const SizedBox(
@@ -105,43 +177,22 @@ class _ComparePageState extends State<ComparePage> {
                       ),
                     )
                   : const Text(
-                      'Compare Hands',
+                      'RUN HAND COMPARISON',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.5,
                       ),
                     ),
             ),
           ),
+
           if (_error != null) ...[
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: const Color(0xFF2A1515),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE74C3C), width: 1.5),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.error_outline,
-                    color: Color(0xFFE74C3C),
-                    size: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      _error!,
-                      style: const TextStyle(color: Color(0xFFE74C3C)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(height: 20),
+            _errorCard(_error!),
           ],
           if (_result != null) ...[
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
             _resultPanel(_result!),
           ],
         ],
@@ -149,61 +200,78 @@ class _ComparePageState extends State<ComparePage> {
     );
   }
 
-  Widget _playerSection(
+  Widget _tableHeader(String title, String subtitle) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        title,
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w900,
+          color: Color(0xFF8E44AD),
+          letterSpacing: 2,
+        ),
+      ),
+      const SizedBox(height: 4),
+      Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF8FA4BB)),
+      ),
+    ],
+  );
+
+  Widget _sectionLabel(String text) => Text(
+    text,
+    style: const TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w900,
+      color: Color(0xFF484F58),
+      letterSpacing: 1.5,
+    ),
+  );
+
+  Widget _playerInput(
     String label,
-    List<TextEditingController> hole,
-    List<TextEditingController> comm,
+    List<TextEditingController> controllers,
     Color accent,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: accent.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: accent.withOpacity(0.4)),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: accent,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
+        _sectionLabel(label),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: CardInput(controller: controllers[0], label: 'HOLE 1'),
             ),
-          ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: CardInput(controller: controllers[1], label: 'HOLE 2'),
+            ),
+          ],
         ),
-        const SizedBox(height: 12),
-        Text(
-          'Hole Cards',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xFF8FA4BB),
-            letterSpacing: 1,
-          ),
-        ),
-        const SizedBox(height: 8),
-        CardRow(controllers: hole, labels: ['Hole 1', 'Hole 2']),
-        const SizedBox(height: 12),
-        Text(
-          'Community Cards',
-          style: const TextStyle(
-            fontSize: 12,
-            color: Color(0xFF8FA4BB),
-            letterSpacing: 1,
-          ),
-        ),
-        const SizedBox(height: 8),
-        CardRow(
-          controllers: comm.sublist(0, 3),
-          labels: ['Flop 1', 'Flop 2', 'Flop 3'],
-        ),
-        const SizedBox(height: 8),
-        CardRow(controllers: comm.sublist(3), labels: ['Turn', 'River']),
       ],
     );
   }
+
+  Widget _errorCard(String error) => Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: const Color(0xFF2A1515),
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: const Color(0xFFE74C3C), width: 1.5),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.error_outline, color: Color(0xFFE74C3C), size: 20),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(error, style: const TextStyle(color: Color(0xFFE74C3C))),
+        ),
+      ],
+    ),
+  );
 
   Widget _resultPanel(Map<String, dynamic> result) {
     final winner = result['winner'] as int;

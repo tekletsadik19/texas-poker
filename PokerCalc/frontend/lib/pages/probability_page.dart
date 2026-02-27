@@ -86,54 +86,128 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
   Widget build(BuildContext context) {
     final commCount = _streetComm[_street]!;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _label('Hole Cards'),
-          const SizedBox(height: 10),
-          CardRow(controllers: _hole, labels: ['Hole 1', 'Hole 2']),
-          const SizedBox(height: 20),
-          _label('Street'),
-          const SizedBox(height: 10),
-          _streetSelector(),
-          if (commCount > 0) ...[
-            const SizedBox(height: 20),
-            _label('Community Cards'),
-            const SizedBox(height: 10),
-            if (commCount >= 3)
-              CardRow(
-                controllers: _comm.sublist(0, 3),
-                labels: ['Flop 1', 'Flop 2', 'Flop 3'],
+          _tableHeader('YOUR HAND', 'The two cards dealt specifically to you.'),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: CardInput(controller: _hole[0], label: 'HOLE 1'),
               ),
-            if (commCount >= 4) ...[
-              const SizedBox(height: 8),
-              CardRow(controllers: _comm.sublist(3, 4), labels: ['Turn']),
+              const SizedBox(width: 12),
+              Expanded(
+                child: CardInput(controller: _hole[1], label: 'HOLE 2'),
+              ),
             ],
-            if (commCount == 5) ...[
+          ),
+          const SizedBox(height: 32),
+          _tableHeader(
+            'SIMULATION SETTINGS',
+            'Define the game state and complexity.',
+          ),
+          const SizedBox(height: 16),
+          _sectionLabel('STREET'),
+          const SizedBox(height: 8),
+          _streetSelector(),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionLabel('PLAYERS'),
+                    const SizedBox(height: 8),
+                    _playerSlider(),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionLabel('ACCURACY'),
+                    const SizedBox(height: 8),
+                    _simSelector(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          if (commCount > 0) ...[
+            const SizedBox(height: 32),
+            _tableHeader(
+              'THE BOARD',
+              'Community cards for the selected street.',
+            ),
+            const SizedBox(height: 16),
+            if (commCount >= 3) ...[
+              _sectionLabel('FLOP'),
               const SizedBox(height: 8),
-              CardRow(controllers: _comm.sublist(4), labels: ['River']),
+              Row(
+                children: [
+                  Expanded(
+                    child: CardInput(controller: _comm[0], label: 'CARD 1'),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: CardInput(controller: _comm[1], label: 'CARD 2'),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: CardInput(controller: _comm[2], label: 'CARD 3'),
+                  ),
+                ],
+              ),
+            ],
+            if (commCount >= 4) ...[
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _sectionLabel('TURN'),
+                        const SizedBox(height: 8),
+                        CardInput(controller: _comm[3], label: 'CARD 4'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  if (commCount == 5)
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _sectionLabel('RIVER'),
+                          const SizedBox(height: 8),
+                          CardInput(controller: _comm[4], label: 'CARD 5'),
+                        ],
+                      ),
+                    )
+                  else
+                    const Spacer(),
+                ],
+              ),
             ],
           ],
-          const SizedBox(height: 20),
-          _label('Number of Players'),
-          const SizedBox(height: 10),
-          _playerSlider(),
-          const SizedBox(height: 20),
-          _label('Simulations'),
-          const SizedBox(height: 10),
-          _simSelector(),
-          const SizedBox(height: 24),
+
+          const SizedBox(height: 40),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _loading ? null : _calculate,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFE74C3C),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                elevation: 4,
+                shadowColor: const Color(0xFFE74C3C).withOpacity(0.4),
               ),
               child: _loading
                   ? const SizedBox(
@@ -145,49 +219,76 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
                       ),
                     )
                   : Text(
-                      'Run $_simulations Simulations',
+                      'CALCULATE ${_simulations.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ODDS',
                       style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.5,
                       ),
                     ),
             ),
           ),
+
           if (_error != null) ...[
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: const Color(0xFF2A1515),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE74C3C), width: 1.5),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.error_outline,
-                    color: Color(0xFFE74C3C),
-                    size: 20,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      _error!,
-                      style: const TextStyle(color: Color(0xFFE74C3C)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(height: 20),
+            _errorCard(_error!),
           ],
           if (_result != null) ...[
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
             _probResult(_result!),
           ],
         ],
       ),
     );
   }
+
+  Widget _tableHeader(String title, String subtitle) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        title,
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w900,
+          color: Color(0xFFE74C3C),
+          letterSpacing: 2,
+        ),
+      ),
+      const SizedBox(height: 4),
+      Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF8FA4BB)),
+      ),
+    ],
+  );
+
+  Widget _sectionLabel(String text) => Text(
+    text,
+    style: const TextStyle(
+      fontSize: 11,
+      fontWeight: FontWeight.w900,
+      color: Color(0xFF484F58),
+      letterSpacing: 1.5,
+    ),
+  );
+
+  Widget _errorCard(String error) => Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: const Color(0xFF2A1515),
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: const Color(0xFFE74C3C), width: 1.5),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.error_outline, color: Color(0xFFE74C3C), size: 20),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(error, style: const TextStyle(color: Color(0xFFE74C3C))),
+        ),
+      ],
+    ),
+  );
 
   Widget _label(String text) => Text(
     text,

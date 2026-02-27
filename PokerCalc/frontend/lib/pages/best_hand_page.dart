@@ -63,33 +63,81 @@ class _BestHandPageState extends State<BestHandPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionLabel('Hole Cards'),
-          const SizedBox(height: 10),
-          CardRow(controllers: _hole, labels: ['Hole 1', 'Hole 2']),
-          const SizedBox(height: 20),
-          _sectionLabel('Community Cards'),
-          const SizedBox(height: 10),
-          CardRow(
-            controllers: _comm.sublist(0, 3),
-            labels: ['Flop 1', 'Flop 2', 'Flop 3'],
+          _tableHeader('YOUR HAND', 'The two cards dealt specifically to you.'),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: CardInput(controller: _hole[0], label: 'HOLE 1'),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: CardInput(controller: _hole[1], label: 'HOLE 2'),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          CardRow(controllers: _comm.sublist(3), labels: ['Turn', 'River']),
-          const SizedBox(height: 24),
+          const SizedBox(height: 32),
+          _tableHeader('THE BOARD', 'Community cards shared by all players.'),
+          const SizedBox(height: 16),
+          _sectionLabel('FLOP'),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: CardInput(controller: _comm[0], label: 'CARD 1'),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: CardInput(controller: _comm[1], label: 'CARD 2'),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: CardInput(controller: _comm[2], label: 'CARD 3'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionLabel('TURN'),
+                    const SizedBox(height: 8),
+                    CardInput(controller: _comm[3], label: 'CARD 4'),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionLabel('RIVER'),
+                    const SizedBox(height: 8),
+                    CardInput(controller: _comm[4], label: 'CARD 5'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 40),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _loading ? null : _evaluate,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF27AE60),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                elevation: 4,
+                shadowColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.4),
               ),
               child: _loading
                   ? const SizedBox(
@@ -101,26 +149,47 @@ class _BestHandPageState extends State<BestHandPage> {
                       ),
                     )
                   : const Text(
-                      'Evaluate Best Hand',
+                      'ANALYZE BEST HAND',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.5,
                       ),
                     ),
             ),
           ),
           if (_error != null) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             _errorCard(_error!),
           ],
           if (_result != null) ...[
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
             _resultCard(_result!),
           ],
         ],
       ),
     );
   }
+
+  Widget _tableHeader(String title, String subtitle) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        title,
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w900,
+          color: Theme.of(context).colorScheme.primary,
+          letterSpacing: 2,
+        ),
+      ),
+      const SizedBox(height: 4),
+      Text(
+        subtitle,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF8FA4BB)),
+      ),
+    ],
+  );
 
   Widget _sectionLabel(String text) => Text(
     text,

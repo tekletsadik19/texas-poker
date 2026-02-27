@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../api_client.dart';
 import '../widgets/card_input.dart';
+import '../widgets/playing_card.dart';
 
 class BestHandPage extends StatefulWidget {
   const BestHandPage({super.key});
@@ -199,28 +200,6 @@ class _BestHandPageState extends State<BestHandPage> {
   }
 
   Widget _cardChip(String card) {
-    final suit = card.isNotEmpty ? card[0] : '';
-    final isRed = suit == 'H' || suit == 'D';
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: BoxDecoration(
-        color: const Color(0xFF0D1B12),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: isRed
-              ? const Color(0xFFE74C3C).withOpacity(0.6)
-              : Colors.white24,
-        ),
-      ),
-      child: Text(
-        card,
-        style: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: isRed ? const Color(0xFFE74C3C) : Colors.white,
-        ),
-      ),
-    );
+    return PlayingCard(cardId: card, width: 50);
   }
 }

@@ -1,132 +1,72 @@
 import 'package:flutter/material.dart';
 
 class PlayingCard extends StatelessWidget {
-  final String card;
+  final String cardId;
   final double width;
-  final double height;
 
-  const PlayingCard({
-    super.key,
-    required this.card,
-    this.width = 60,
-    this.height = 84,
-  });
+  const PlayingCard({super.key, required this.cardId, this.width = 70});
 
   @override
   Widget build(BuildContext context) {
-    if (card.length != 2) return SizedBox(width: width, height: height);
+    if (cardId.isEmpty || cardId.length != 2) return const SizedBox();
 
-    final suit = card[0].toUpperCase();
-    final rank = card[1].toUpperCase();
+    // Map our notation (Suit+Rank: HA) to API notation (Rank+Suit: AH)
+    // Note: API uses '0' for Ten.
+    final suit = cardId[0].toUpperCase();
+    String rank = cardId[1].toUpperCase();
+    if (rank == 'T') rank = '0';
 
-    Color suitColor;
-    String suitSymbol;
-
-    switch (suit) {
-      case 'H':
-        suitColor = const Color(0xFFE74C3C);
-        suitSymbol = '♥';
-        break;
-      case 'D':
-        suitColor = const Color(0xFFE74C3C);
-        suitSymbol = '♦';
-        break;
-      case 'S':
-        suitColor = const Color(0xFF2C3E50);
-        suitSymbol = '♠';
-        break;
-      case 'C':
-        suitColor = const Color(0xFF2C3E50);
-        suitSymbol = '♣';
-        break;
-      default:
-        suitColor = Colors.grey;
-        suitSymbol = '?';
-    }
-
-    String displayRank = rank;
-    if (rank == 'T') displayRank = '10';
+    final imageUrl = 'https://deckofcardsapi.com/static/img/$rank$suit.png';
 
     return Container(
       width: width,
-      height: height,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
-            blurRadius: 4,
-            offset: const Offset(2, 2),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
           ),
         ],
-        border: Border.all(color: Colors.grey.shade300, width: 1),
       ),
-      child: Stack(
-        children: [
-          // Top Left Rank
-          Positioned(
-            top: 4,
-            left: 4,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  displayRank,
-                  style: TextStyle(
-                    color: suitColor,
-                    fontSize: 14,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(width * 0.08),
+        child: Image.network(
+          imageUrl,
+          width: width,
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              width: width,
+              height: width * 1.4,
+              color: Colors.white,
+              child: Center(
+                child: Text(
+                  cardId,
+                  style: const TextStyle(
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    height: 1,
                   ),
                 ),
-                Text(
-                  suitSymbol,
-                  style: TextStyle(color: suitColor, fontSize: 12, height: 1),
+              ),
+            );
+          },
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: width,
+              height: width * 1.4,
+              color: Colors.white10,
+              child: const Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-              ],
-            ),
-          ),
-
-          // Center Huge Suit
-          Center(
-            child: Text(
-              suitSymbol,
-              style: TextStyle(
-                color: suitColor.withOpacity(0.15),
-                fontSize: height * 0.6,
-                height: 1,
               ),
-            ),
-          ),
-
-          // Bottom Right Rank (inverted)
-          Positioned(
-            bottom: 4,
-            right: 4,
-            child: RotatedBox(
-              quarterTurns: 2,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    displayRank,
-                    style: TextStyle(
-                      color: suitColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      height: 1,
-                    ),
-                  ),
-                  Text(
-                    suitSymbol,
-                    style: TextStyle(color: suitColor, fontSize: 12, height: 1),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

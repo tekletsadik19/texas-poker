@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../api_client.dart';
 import '../widgets/card_input.dart';
+import '../widgets/playing_card.dart';
 
 class ComparePage extends StatefulWidget {
   const ComparePage({super.key});
@@ -317,31 +318,10 @@ class _ComparePageState extends State<ComparePage> {
           ),
           const SizedBox(height: 8),
           Wrap(
-            spacing: 4,
-            runSpacing: 4,
+            spacing: 8,
+            runSpacing: 8,
             children: cards.map((c) {
-              final isRed = c.isNotEmpty && (c[0] == 'H' || c[0] == 'D');
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0D1B12),
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: isRed
-                        ? const Color(0xFFE74C3C).withOpacity(0.5)
-                        : Colors.white24,
-                  ),
-                ),
-                child: Text(
-                  c,
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: isRed ? const Color(0xFFE74C3C) : Colors.white,
-                  ),
-                ),
-              );
+              return PlayingCard(cardId: c, width: 45);
             }).toList(),
           ),
         ],

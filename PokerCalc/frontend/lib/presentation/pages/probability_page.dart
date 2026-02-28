@@ -15,7 +15,7 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
   final List<String?> _comm = [null, null, null, null, null];
   int _numPlayers = 2;
   int _simulations = 10000;
-  String _street = 'Pre-Flop';
+  String _street = 'River';
   bool _loading = false;
   String? _error;
   ProbabilityEntity? _result;

@@ -10,3 +10,4 @@ spec:
       port: 80
       targetPort: 8081
   type: LoadBalancer
+  loadBalancerIP: 34.27.70.130

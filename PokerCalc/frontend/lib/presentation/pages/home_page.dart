@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../widgets/background_pattern.dart';
 import 'best_hand_page.dart';
 import 'compare_page.dart';
@@ -52,9 +53,16 @@ class _PokerHomePageState extends State<PokerHomePage> {
             children: [
               Container(
                 width: 90, // Fixed sleek width
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  border: Border(right: BorderSide(color: Color(0xFFE1E4E8))),
+                margin: const EdgeInsets.only(right: 1), // Space for elevation
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.85),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(2, 0),
+                    ),
+                  ],
                 ),
                 child: NavigationRail(
                   backgroundColor: Colors.transparent,
@@ -62,7 +70,7 @@ class _PokerHomePageState extends State<PokerHomePage> {
                   onDestinationSelected: (i) =>
                       setState(() => _selectedIndex = i),
                   labelType: NavigationRailLabelType.all,
-                  groupAlignment: 0, // Center items vertically
+                  groupAlignment: -1.0, // Start from top
                   indicatorColor:
                       Colors.transparent, // Clean look, no background blob
                   selectedIconTheme: IconThemeData(
@@ -89,33 +97,33 @@ class _PokerHomePageState extends State<PokerHomePage> {
                     NavigationRailDestination(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(Icons.style_outlined),
+                        child: Icon(FluentIcons.card_ui_24_regular),
                       ),
                       selectedIcon: Padding(
                         padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(Icons.style),
+                        child: Icon(FluentIcons.card_ui_24_filled),
                       ),
                       label: Text('BEST HAND'),
                     ),
                     NavigationRailDestination(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(Icons.compare_arrows_outlined),
+                        child: Icon(FluentIcons.arrow_sync_24_regular),
                       ),
                       selectedIcon: Padding(
                         padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(Icons.compare_arrows),
+                        child: Icon(FluentIcons.arrow_sync_24_filled),
                       ),
                       label: Text('COMPARE'),
                     ),
                     NavigationRailDestination(
                       icon: Padding(
                         padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(Icons.bar_chart_outlined),
+                        child: Icon(FluentIcons.chart_person_24_regular),
                       ),
                       selectedIcon: Padding(
                         padding: EdgeInsets.only(bottom: 4),
-                        child: Icon(Icons.bar_chart),
+                        child: Icon(FluentIcons.chart_person_24_filled),
                       ),
                       label: Text('PROBABILITY'),
                     ),

@@ -48,7 +48,10 @@ class VisualCardSlot extends StatelessWidget {
                       ).colorScheme.primary.withOpacity(0.5),
                       width: 2,
                     )
-                  : null,
+                  : Border.all(
+                      color: Theme.of(context).colorScheme.outline,
+                      width: 1,
+                    ),
               boxShadow: hasCard
                   ? [
                       BoxShadow(

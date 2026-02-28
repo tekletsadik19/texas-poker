@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: gcr.io/YOUR_PROJECT_ID/poker-backend:latest
+          image: gcr.io/project-5d7618af-c2a5-4076-a4e/poker-backend:latest
           ports:
             - containerPort: 8081
           resources:

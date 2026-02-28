@@ -7,7 +7,7 @@ import 'presentation/pages/home_page.dart';
 
 // Simple dependency injection
 final PokerRepository pokerRepository = PokerRepositoryImpl(
-  remoteDataSource: PokerRemoteDataSource(baseUrl: 'http://localhost:8081'),
+  remoteDataSource: PokerRemoteDataSource(baseUrl: 'http://34.132.219.76'),
 );
 
 void main() {

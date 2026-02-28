@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: gcr.io/YOUR_PROJECT_ID/poker-frontend:latest
+          image: gcr.io/project-5d7618af-c2a5-4076-a4e/poker-frontend:latest
           ports:
             - containerPort: 80
           resources:

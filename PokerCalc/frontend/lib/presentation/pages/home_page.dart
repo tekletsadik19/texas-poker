@@ -29,11 +29,11 @@ class _PokerHomePageState extends State<PokerHomePage> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                const PlayingCard(cardId: 'AS', width: 20),
+                PlayingCard(cardId: 'SA', width: 20),
                 Positioned(
                   left: 10,
                   top: 0,
-                  child: const PlayingCard(cardId: 'KH', width: 20),
+                  child: PlayingCard(cardId: 'HK', width: 20),
                 ),
               ],
             ),

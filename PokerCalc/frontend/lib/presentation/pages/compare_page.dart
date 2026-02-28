@@ -83,9 +83,9 @@ class _ComparePageState extends State<ComparePage> {
             'SHARED BOARD',
             style: TextStyle(
               fontSize: 11,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               color: Color(0xFF6E7681),
-              letterSpacing: 2,
+              letterSpacing: 1.5,
             ),
           ),
           const SizedBox(height: 16),
@@ -131,9 +131,9 @@ class _ComparePageState extends State<ComparePage> {
             name,
             style: TextStyle(
               fontSize: 11,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               color: accent,
-              letterSpacing: 2,
+              letterSpacing: 1.5,
             ),
           ),
           const SizedBox(height: 16),
@@ -159,22 +159,18 @@ class _ComparePageState extends State<ComparePage> {
       );
 
   Widget _actionButton() => Container(
-    width: 240,
-    decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-          color: const Color(0xFF8E44AD).withOpacity(0.3),
-          blurRadius: 20,
-          offset: const Offset(0, 8),
-        ),
-      ],
-    ),
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 16),
     child: ElevatedButton(
       onPressed: _loading ? null : _compare,
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF8E44AD),
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        disabledBackgroundColor: const Color(0xFFC4C8CC),
+        foregroundColor: Colors.white,
+        disabledForegroundColor: Colors.white,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(vertical: 18),
+        shape: const StadiumBorder(),
       ),
       child: _loading
           ? const SizedBox(
@@ -188,9 +184,9 @@ class _ComparePageState extends State<ComparePage> {
           : const Text(
               'RUN SHOWDOWN',
               style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 13,
-                letterSpacing: 2,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                letterSpacing: 1.2,
               ),
             ),
     ),
@@ -199,7 +195,7 @@ class _ComparePageState extends State<ComparePage> {
   Widget _errorCard(String error) => Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: const Color(0xFF2A1515),
+      color: const Color(0xFFFDEDED),
       borderRadius: BorderRadius.circular(12),
       border: Border.all(color: const Color(0xFFE74C3C)),
     ),
@@ -289,10 +285,10 @@ class _ComparePageState extends State<ComparePage> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF161B22),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isWinner ? accent : const Color(0xFF30363D),
+          color: isWinner ? accent : const Color(0xFFE1E4E8),
           width: isWinner ? 1.5 : 1,
         ),
       ),

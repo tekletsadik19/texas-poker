@@ -148,9 +148,9 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
     title,
     style: const TextStyle(
       fontSize: 10,
-      fontWeight: FontWeight.w900,
+      fontWeight: FontWeight.w700,
       color: Color(0xFF6E7681),
-      letterSpacing: 2,
+      letterSpacing: 1.5,
     ),
   );
 
@@ -165,21 +165,19 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
               margin: const EdgeInsets.only(right: 4),
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                color: selected
-                    ? const Color(0xFFE74C3C)
-                    : const Color(0xFF161B22),
+                color: selected ? const Color(0xFFE74C3C) : Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: selected
                       ? Colors.transparent
-                      : const Color(0xFF30363D),
+                      : const Color(0xFFE1E4E8),
                 ),
               ),
               child: Center(
                 child: Text(
                   s,
                   style: TextStyle(
-                    color: selected ? Colors.white : const Color(0xFF8FA4BB),
+                    color: selected ? Colors.white : const Color(0xFF484F58),
                     fontWeight: selected ? FontWeight.w900 : FontWeight.normal,
                     fontSize: 11,
                   ),
@@ -195,9 +193,9 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
   Widget _playerSlider() => Container(
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     decoration: BoxDecoration(
-      color: const Color(0xFF161B22),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: const Color(0xFF30363D)),
+      border: Border.all(color: const Color(0xFFE1E4E8)),
     ),
     child: Row(
       children: [
@@ -211,7 +209,7 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
           child: SliderTheme(
             data: SliderThemeData(
               activeTrackColor: const Color(0xFFE74C3C),
-              inactiveTrackColor: const Color(0xFF30363D),
+              inactiveTrackColor: const Color(0xFFE1E4E8),
               thumbColor: Colors.white,
               overlayColor: const Color(0xFFE74C3C).withOpacity(0.1),
             ),
@@ -247,21 +245,19 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
               margin: const EdgeInsets.only(right: 2),
               padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
-                color: selected
-                    ? const Color(0xFFE74C3C)
-                    : const Color(0xFF161B22),
+                color: selected ? const Color(0xFFE74C3C) : Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: selected
                       ? Colors.transparent
-                      : const Color(0xFF30363D),
+                      : const Color(0xFFE1E4E8),
                 ),
               ),
               child: Center(
                 child: Text(
                   '${n ~/ 1000}k',
                   style: TextStyle(
-                    color: selected ? Colors.white : const Color(0xFF8FA4BB),
+                    color: selected ? Colors.white : const Color(0xFF484F58),
                     fontWeight: selected ? FontWeight.w900 : FontWeight.normal,
                     fontSize: 10,
                   ),
@@ -275,22 +271,18 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
   }
 
   Widget _actionButton() => Container(
-    width: 240,
-    decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-          color: const Color(0xFFE74C3C).withOpacity(0.3),
-          blurRadius: 20,
-          offset: const Offset(0, 8),
-        ),
-      ],
-    ),
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 16),
     child: ElevatedButton(
       onPressed: _loading ? null : _calculate,
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFFE74C3C),
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        disabledBackgroundColor: const Color(0xFFC4C8CC),
+        foregroundColor: Colors.white,
+        disabledForegroundColor: Colors.white,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(vertical: 18),
+        shape: const StadiumBorder(),
       ),
       child: _loading
           ? const SizedBox(
@@ -304,9 +296,9 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
           : const Text(
               'CALCULATE ODDS',
               style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 13,
-                letterSpacing: 2,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                letterSpacing: 1.2,
               ),
             ),
     ),
@@ -315,7 +307,7 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
   Widget _errorCard(String error) => Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: const Color(0xFF2A1515),
+      color: const Color(0xFFFDEDED),
       borderRadius: BorderRadius.circular(12),
       border: Border.all(color: const Color(0xFFE74C3C)),
     ),
@@ -340,7 +332,7 @@ class _ProbabilityPageState extends State<ProbabilityPage> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D1117),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: const Color(0xFFE74C3C).withOpacity(0.3)),
       ),

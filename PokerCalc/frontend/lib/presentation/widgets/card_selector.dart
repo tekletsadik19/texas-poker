@@ -13,10 +13,10 @@ class _VisualCardSelectorState extends State<VisualCardSelector> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: const Color(0xFF0D1117),
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: Color(0xFF30363D)),
+        side: const BorderSide(color: Color(0xFFE1E4E8)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -81,7 +81,7 @@ class _VisualCardSelectorState extends State<VisualCardSelector> {
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF30363D),
+                      backgroundColor: const Color(0xFFE1E4E8),
                     ),
                     child: const Text('CANCEL'),
                   ),
@@ -96,7 +96,7 @@ class _VisualCardSelectorState extends State<VisualCardSelector> {
 
   Widget _suitIcon(String s) {
     final bool isSel = selectedSuit == s;
-    final Color color = s == 'H' || s == 'D' ? Colors.red : Colors.white;
+    final Color color = s == 'H' || s == 'D' ? Colors.red : Colors.black;
     return GestureDetector(
       onTap: () => setState(() => selectedSuit = s),
       child: Container(
@@ -132,9 +132,9 @@ class _VisualCardSelectorState extends State<VisualCardSelector> {
         width: 45,
         height: 45,
         decoration: BoxDecoration(
-          color: const Color(0xFF161B22),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xFF30363D)),
+          border: Border.all(color: const Color(0xFFE1E4E8)),
         ),
         child: Center(
           child: Text(

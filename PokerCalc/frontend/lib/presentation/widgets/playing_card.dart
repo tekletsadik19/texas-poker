@@ -39,7 +39,7 @@ class PlayingCard extends StatelessWidget {
             return Container(
               width: width,
               height: width * 1.4,
-              color: Colors.white,
+              color: Colors.black,
               child: Center(
                 child: Text(
                   cardId,
@@ -56,7 +56,7 @@ class PlayingCard extends StatelessWidget {
             return Container(
               width: width,
               height: width * 1.4,
-              color: Colors.white10,
+              color: Colors.black12,
               child: const Center(
                 child: SizedBox(
                   width: 20,

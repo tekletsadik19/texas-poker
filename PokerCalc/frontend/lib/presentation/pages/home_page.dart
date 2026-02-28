@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/playing_card.dart';
+import '../widgets/background_pattern.dart';
 import 'best_hand_page.dart';
 import 'compare_page.dart';
 import 'probability_page.dart';
@@ -26,23 +26,13 @@ class _PokerHomePageState extends State<PokerHomePage> {
         titleSpacing: 16,
         title: Row(
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                PlayingCard(cardId: 'SA', width: 20),
-                Positioned(
-                  left: 10,
-                  top: 0,
-                  child: PlayingCard(cardId: 'HK', width: 20),
-                ),
-              ],
-            ),
-            const SizedBox(width: 28),
+            const SizedBox(width: 16),
             const Text(
               'PokerCalc',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.w900,
+                color: Colors.black,
                 letterSpacing: -0.5,
               ),
             ),
@@ -55,46 +45,86 @@ class _PokerHomePageState extends State<PokerHomePage> {
           ],
         ],
       ),
-      body: Row(
+      body: Stack(
         children: [
-          NavigationRail(
-            extended: !isSmallScreen && MediaQuery.of(context).size.width > 900,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (i) => setState(() => _selectedIndex = i),
-            labelType:
-                (!isSmallScreen && MediaQuery.of(context).size.width > 900)
-                ? null
-                : (isSmallScreen
-                      ? NavigationRailLabelType.none
-                      : NavigationRailLabelType.all),
-            indicatorColor: Theme.of(
-              context,
-            ).colorScheme.primary.withOpacity(0.1),
-            selectedIconTheme: IconThemeData(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            unselectedIconTheme: const IconThemeData(color: Color(0xFF484F58)),
-            destinations: const [
-              NavigationRailDestination(
-                icon: Icon(Icons.style_outlined),
-                selectedIcon: Icon(Icons.style),
-                label: Text('BEST HAND'),
+          const Positioned.fill(child: BackgroundPattern()),
+          Row(
+            children: [
+              Container(
+                width: 90, // Fixed sleek width
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(right: BorderSide(color: Color(0xFFE1E4E8))),
+                ),
+                child: NavigationRail(
+                  backgroundColor: Colors.transparent,
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: (i) =>
+                      setState(() => _selectedIndex = i),
+                  labelType: NavigationRailLabelType.all,
+                  groupAlignment: 0, // Center items vertically
+                  indicatorColor:
+                      Colors.transparent, // Clean look, no background blob
+                  selectedIconTheme: IconThemeData(
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 28,
+                  ),
+                  unselectedIconTheme: const IconThemeData(
+                    color: Color(0xFFB0B4B8),
+                    size: 24,
+                  ),
+                  selectedLabelTextStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 9,
+                    letterSpacing: 1.0,
+                  ),
+                  unselectedLabelTextStyle: const TextStyle(
+                    color: Color(0xFFB0B4B8),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 9,
+                    letterSpacing: 1.0,
+                  ),
+                  destinations: const [
+                    NavigationRailDestination(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Icon(Icons.style_outlined),
+                      ),
+                      selectedIcon: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Icon(Icons.style),
+                      ),
+                      label: Text('BEST HAND'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Icon(Icons.compare_arrows_outlined),
+                      ),
+                      selectedIcon: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Icon(Icons.compare_arrows),
+                      ),
+                      label: Text('COMPARE'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Icon(Icons.bar_chart_outlined),
+                      ),
+                      selectedIcon: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Icon(Icons.bar_chart),
+                      ),
+                      label: Text('PROBABILITY'),
+                    ),
+                  ],
+                ),
               ),
-              NavigationRailDestination(
-                icon: Icon(Icons.compare_arrows_outlined),
-                selectedIcon: Icon(Icons.compare_arrows),
-                label: Text('COMPARE'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.bar_chart_outlined),
-                selectedIcon: Icon(Icons.bar_chart),
-                label: Text('PROBABILITY'),
-              ),
+              Expanded(child: _pages[_selectedIndex]),
             ],
           ),
-          const VerticalDivider(width: 1),
-          Expanded(child: _pages[_selectedIndex]),
         ],
       ),
     );

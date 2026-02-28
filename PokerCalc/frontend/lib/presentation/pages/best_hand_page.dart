@@ -132,29 +132,25 @@ class _BestHandPageState extends State<BestHandPage> {
     title,
     style: const TextStyle(
       fontSize: 12,
-      fontWeight: FontWeight.w900,
+      fontWeight: FontWeight.w700,
       color: Color(0xFF6E7681),
-      letterSpacing: 3,
+      letterSpacing: 2,
     ),
   );
 
   Widget _actionButton() => Container(
-    width: 240,
-    decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-          blurRadius: 20,
-          offset: const Offset(0, 8),
-        ),
-      ],
-    ),
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 16),
     child: ElevatedButton(
       onPressed: _loading ? null : _evaluate,
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        disabledBackgroundColor: const Color(0xFFC4C8CC),
+        foregroundColor: Colors.white,
+        disabledForegroundColor: Colors.white,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(vertical: 18),
+        shape: const StadiumBorder(),
       ),
       child: _loading
           ? const SizedBox(
@@ -168,9 +164,9 @@ class _BestHandPageState extends State<BestHandPage> {
           : const Text(
               'ANALYZE HAND',
               style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 13,
-                letterSpacing: 2,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                letterSpacing: 1.2,
               ),
             ),
     ),
@@ -179,7 +175,7 @@ class _BestHandPageState extends State<BestHandPage> {
   Widget _errorCard(String error) => Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: const Color(0xFF2A1515),
+      color: const Color(0xFFFDEDED),
       borderRadius: BorderRadius.circular(12),
       border: Border.all(color: const Color(0xFFE74C3C)),
     ),
@@ -205,7 +201,7 @@ class _BestHandPageState extends State<BestHandPage> {
       width: double.infinity,
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D1117),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
@@ -223,7 +219,7 @@ class _BestHandPageState extends State<BestHandPage> {
           const Text(
             'BEST HAND COMBINATION',
             style: TextStyle(
-              color: Color(0xFF8FA4BB),
+              color: Color(0xFF484F58),
               fontSize: 11,
               fontWeight: FontWeight.w900,
               letterSpacing: 2,

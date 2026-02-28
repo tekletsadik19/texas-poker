@@ -18,9 +18,9 @@ class PokerRepositoryImpl implements PokerRepository {
       'community': community,
     });
     return HandEvalEntity(
-      rankName: data['rank_name'],
-      bestCards: List<String>.from(data['best_cards']),
-      score: data['score'],
+      rankName: data['rank_name'] ?? '',
+      bestCards: List<String>.from(data['best_cards'] ?? []),
+      score: (data['rank'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -33,10 +33,8 @@ class PokerRepositoryImpl implements PokerRepository {
   ) async {
     // Return raw map for comparison screen as it has complex nested data
     return await remoteDataSource.post('/hand/compare', {
-      'player1_hole': p1Hole,
-      'player1_community': p1Comm,
-      'player2_hole': p2Hole,
-      'player2_community': p2Comm,
+      'player1': {'hole': p1Hole, 'community': p1Comm},
+      'player2': {'hole': p2Hole, 'community': p2Comm},
     });
   }
 
@@ -48,15 +46,15 @@ class PokerRepositoryImpl implements PokerRepository {
     int simulations,
   ) async {
     final data = await remoteDataSource.post('/hand/probability', {
-      'hole_cards': hole,
-      'community_cards': community,
+      'hole': hole,
+      'community': community,
       'num_players': players,
       'simulations': simulations,
     });
     return ProbabilityEntity(
-      win: (data['win_probability'] as num).toDouble(),
-      tie: (data['tie_probability'] as num).toDouble(),
-      loss: (data['loss_probability'] as num).toDouble(),
+      win: (data['win_probability'] as num?)?.toDouble() ?? 0.0,
+      tie: (data['tie_probability'] as num?)?.toDouble() ?? 0.0,
+      loss: (data['loss_probability'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

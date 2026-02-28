@@ -28,8 +28,20 @@ class _ComparePageState extends State<ComparePage> {
       setState(() => _error = 'Select 2 hole cards for both players');
       return;
     }
-    if (comm.length < 3) {
-      setState(() => _error = 'Select at least 3 community cards (Flop)');
+    if (comm.length < 5) {
+      setState(
+        () => _error = 'Select all 5 community cards (Flop + Turn + River)',
+      );
+      return;
+    }
+    final p1AllCards = [...p1h, ...comm];
+    final p2AllCards = [...p2h, ...comm];
+    if (p1AllCards.toSet().length != p1AllCards.length ||
+        p2AllCards.toSet().length != p2AllCards.length) {
+      setState(
+        () => _error =
+            'Duplicate card detected — each card can only be used once',
+      );
       return;
     }
 

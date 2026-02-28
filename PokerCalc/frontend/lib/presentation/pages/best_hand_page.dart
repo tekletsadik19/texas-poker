@@ -27,8 +27,18 @@ class _BestHandPageState extends State<BestHandPage> {
       setState(() => _error = 'Select 2 hole cards');
       return;
     }
-    if (comm.length < 3) {
-      setState(() => _error = 'Select at least 3 community cards (Flop)');
+    if (comm.length < 5) {
+      setState(
+        () => _error = 'Select all 5 community cards (Flop + Turn + River)',
+      );
+      return;
+    }
+    final allCards = [...hole, ...comm];
+    if (allCards.toSet().length != allCards.length) {
+      setState(
+        () => _error =
+            'Duplicate card detected — each card can only be used once',
+      );
       return;
     }
 
